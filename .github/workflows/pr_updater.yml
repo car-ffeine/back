@@ -1,0 +1,22 @@
+name: update_pr_with_branch_name
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+    update_pr_with_branch_name:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v2
+          name: Update PR with branch name
+
+        - uses: peter-evans/create-pull-request@v3
+          with:
+            token: ${{ secrets.TOKEN }}
+            commit-message: Update PR with branch name
+            title: Update PR with branch name
+            body: |
+                This is an automated update of the PR title and body with the branch name.
+                The branch name is **${{ github.head_ref }}**.
+            branch: update-pr-with-branch-name
+            branch-suffix: timestamp
+            delete-branch: true
