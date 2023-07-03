@@ -1,12 +1,20 @@
-name: echo_pr_body
+name: append
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-    echo_pr_body:
+    append_1_to_pr_body_not_commit:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout
-              uses: actions/checkout@v2
-            - name: echo pr body
-              run: echo "${{ github.event.pull_request.body }}"
+            - name: append feature number to pr body feat/1 -> feat/1, #1
+              uses: actions/github-script@v4
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  script: |
+                      const pr = await github.pulls.get({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          pull_number: context.issue.number
+                      });
+                      const body = pr.data.body; 
+                    console.log(body);
