@@ -2,6 +2,7 @@ name: append
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    
 jobs:
     append_1_to_pr_body_not_commit:
         runs-on: ubuntu-latest
