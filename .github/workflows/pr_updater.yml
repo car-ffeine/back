@@ -17,4 +17,4 @@ jobs:
                           pull_number: context.issue.number
                       });
                       const body = pr.data.body; 
-                    console.log(body);
+                      console.log(body);
