@@ -6,7 +6,7 @@ jobs:
     append_1_to_pr_body_not_commit:
         runs-on: ubuntu-latest
         steps:
-            - name: append feature number to pr body feat/1 -> feat/1, #1
+            - name: append feature number to pr body pr branch = feat/(issueNumber)
               uses: actions/github-script@v4
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -16,5 +16,12 @@ jobs:
                           repo: context.repo.repo,
                           pull_number: context.issue.number
                       });
-                      const body = pr.data.body; 
-                      console.log(body);
+                      const body = pr.data.body;
+                      const issueNumber= pr.data.head.ref.split('/')[1];
+                      const newBody = body + "\n\n" + "issueNumber: #" + issueNumber;
+                      await github.pulls.update({
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                            pull_number: context.issue.number,
+                            body: newBody
+                        });
